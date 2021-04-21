@@ -38,7 +38,7 @@ class MyHomePageState extends State<MyHomePage> {
             _startPosition = startPosition;
           });
         },
-        onPointerUp: (PointerUpEvent mouseUp) {
+        onPointerMove: (PointerMoveEvent mouseUp) {
           RenderBox referenceBox = _paintKey.currentContext.findRenderObject();
           Offset shapeSize = referenceBox.globalToLocal(mouseUp.position);
           setState(() {
@@ -59,8 +59,8 @@ class MyHomePageState extends State<MyHomePage> {
 }
 
 class MyCustomPainter extends CustomPainter {
-  final Offset _startPosition;
-  final Offset _shapeSize;
+  Offset _startPosition;
+  Offset _shapeSize;
   MyCustomPainter(this._startPosition, this._shapeSize);
 
   @override
@@ -72,9 +72,11 @@ class MyCustomPainter extends CustomPainter {
     double startPosY = _startPosition.dy;
     double endPosX = _shapeSize.dx;
     double endPosY = _shapeSize.dy;
-    double circleRadius = (sqrt(pow((startPosX - endPosX), 2) + pow((startPosY - endPosY), 2)))/2;
+    double circleRadius = (sqrt(pow((startPosX - endPosX), 2) + pow((startPosY - endPosY), 2)));
 
     canvas.drawCircle(_startPosition, circleRadius, new Paint()..color = Colors.blue);
+    _startPosition = null;
+    _shapeSize = null;
   }
 
   @override
